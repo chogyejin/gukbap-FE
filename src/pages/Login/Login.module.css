@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+}
+
+.header {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 20px;
+}
+
+.login-input {
+  border: none;
+  border-bottom: 1px solid #000000;
+  padding: 8px 0px;
+  font-size: 20px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.login-button {
+  color: #ffffff;
+  background-color: #ff6e6e;
+  padding: 12px 0px;
+}

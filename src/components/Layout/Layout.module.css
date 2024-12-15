@@ -1,0 +1,10 @@
+.container {
+  margin: 0 auto;
+  min-width: 320px;
+  max-width: 480px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 32px;
+}
