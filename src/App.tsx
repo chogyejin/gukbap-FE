@@ -1,9 +1,7 @@
+import { AppRoutes } from '@/routes/AppRoutes';
+
 function App() {
-  return (
-    <div>
-      <div>adsf</div>
-    </div>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
