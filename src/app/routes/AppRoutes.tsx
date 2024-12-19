@@ -1,4 +1,4 @@
-import { ProtectedRoute } from '@/routes/ProtectedRoute';
+import { ProtectedRoute } from '@/app/routes/ProtectedRoute';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { BrowserRouter, Route, Routes } from 'react-router';

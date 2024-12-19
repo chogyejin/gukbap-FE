@@ -1,6 +1,6 @@
-import { AppRoutes } from '@/routes/AppRoutes';
+import { AppRoutes } from '@/app/routes/AppRoutes';
+import { Layout } from '@/shared/ui/Layout';
 import './styles/reset.css';
-import { Layout } from '@/components/Layout';
 
 function App() {
   return (
