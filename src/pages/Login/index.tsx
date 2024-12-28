@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './Login.module.css';
+import { useAuthService } from '@/shared/api/endpoints/auth/context';
 
 const FORM_FIELD = {
   id: 'id',
@@ -7,6 +8,7 @@ const FORM_FIELD = {
 } as const;
 
 export const Login = () => {
+  const authService = useAuthService();
   const [formValues, setFormValues] = useState<{
     id: string;
     password: string;
