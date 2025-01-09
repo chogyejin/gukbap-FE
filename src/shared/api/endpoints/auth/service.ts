@@ -1,4 +1,4 @@
-import { Client } from '@/shared/api/client';
+import { HttpClient } from '@/shared/api/client';
 
 export interface AuthService {
   signIn: (body: {
@@ -10,7 +10,7 @@ export interface AuthService {
 export const createAuthService = ({
   httpClient,
 }: {
-  httpClient: Client;
+  httpClient: HttpClient;
 }): AuthService => ({
   signIn: async (body) => {
     return (await httpClient.post<{ token: string }>('/users/sign-in', body))

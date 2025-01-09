@@ -3,7 +3,7 @@ type Headers = { [key: string]: string };
 type Config = { headers: Headers; params: URLSearchParams };
 type CreateClientOptions = { baseURL: string; headers: Headers };
 
-export interface Client {
+export interface HttpClient {
   get<D = unknown>(url: Url, config?: Partial<Config>): Promise<{ data: D }>;
   post<D = unknown, B = unknown>(
     url: Url,
@@ -15,9 +15,9 @@ export interface Client {
 const paramsToString = (params?: URLSearchParams) =>
   params ? `?${params}` : '';
 
-export const createClient = (
+export const createHttpClient = (
   options: Partial<CreateClientOptions> = {}
-): Client => {
+): HttpClient => {
   const baseURL = options.baseURL ?? '';
   const headers = options.headers ?? {};
 
