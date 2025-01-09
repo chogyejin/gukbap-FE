@@ -1,6 +1,6 @@
 import { ProtectedRoute } from '@/app/routes/ProtectedRoute';
-import { Home } from '@/pages/Home';
-import { Login } from '@/pages/Login';
+import { HomePage } from '@/pages/Home/ui/HomePage';
+import { LoginPage } from '@/pages/Login/ui/LoginPage';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 
 export const AppRoutes = () => {
@@ -11,11 +11,11 @@ export const AppRoutes = () => {
           path="/"
           element={
             <ProtectedRoute>
-              <Home />
+              <HomePage />
             </ProtectedRoute>
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import styles from './Login.module.css';
+import styles from './LoginPage.module.css';
 import { useAuthService } from '@/shared/api/endpoints/auth/context';
 import { setToken } from '@/shared/lib/storage';
 
@@ -9,7 +9,7 @@ const FORM_FIELD = {
   password: 'password',
 } as const;
 
-export const Login = () => {
+export const LoginPage = () => {
   const authService = useAuthService();
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState<{

@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import styles from './Home.module.css';
+import styles from './HomePage.module.css';
 import { displayMarker } from '@/shared/lib/map';
 
-export const Home = () => {
+export const HomePage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
