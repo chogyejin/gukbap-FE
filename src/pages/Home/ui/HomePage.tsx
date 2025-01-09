@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styles from './HomePage.module.css';
 import { displayMarker } from '@/shared/lib/map';
+import { SearchForm } from './SearchForm';
 
 export const HomePage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -32,5 +33,10 @@ export const HomePage = () => {
     }
   }, []);
 
-  return <div ref={mapRef} className={styles.map} />;
+  return (
+    <>
+      <SearchForm />
+      <div ref={mapRef} className={styles.map} />
+    </>
+  );
 };

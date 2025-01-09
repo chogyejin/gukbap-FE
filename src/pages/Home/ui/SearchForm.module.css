@@ -1,0 +1,34 @@
+.form-wrapper {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  padding: 32px;
+  width: 100%;
+  max-width: var(--max-width);
+}
+
+.form {
+  display: flex;
+}
+
+.search-input {
+  padding: 4px 8px;
+  width: 100%;
+  height: 40px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border: 1px solid var(--border-gray);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.search-button {
+  width: 64px;
+  height: 40px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
