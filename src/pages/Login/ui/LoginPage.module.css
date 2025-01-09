@@ -19,7 +19,7 @@
   border: none;
   border-bottom: 1px solid #000000;
   padding: 8px 0px;
-  font-size: 20px;
+  font-size: var(--font-size-large);
 
   &:focus {
     outline: none;
@@ -28,6 +28,6 @@
 
 .login-button {
   color: #ffffff;
-  background-color: #ff6e6e;
+  background-color: var(--color-primary);
   padding: 12px 0px;
 }
