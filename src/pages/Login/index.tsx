@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import styles from './Login.module.css';
 import { useAuthService } from '@/shared/api/endpoints/auth/context';
+import { setToken } from '@/shared/lib/storage';
 
 const FORM_FIELD = {
   id: 'id',
@@ -9,6 +11,7 @@ const FORM_FIELD = {
 
 export const Login = () => {
   const authService = useAuthService();
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState<{
     id: string;
     password: string;
@@ -24,8 +27,29 @@ export const Login = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const { id, password } = formValues;
+
+    if (!id || !password) {
+      return;
+    }
+
+    try {
+      const { token } = await authService.signIn({
+        username: id,
+        password: password,
+      });
+      navigate('/home');
+      setToken('token', token);
+    } catch (e) {
+      let message = 'Unknown Error';
+      if (e instanceof Error) {
+        message = e.message;
+      }
+      alert(message);
+    }
   };
 
   return (
@@ -37,6 +61,7 @@ export const Login = () => {
           name={FORM_FIELD.id}
           placeholder="아이디"
           onChange={handleChange}
+          autoComplete="username"
         />
         <input
           className={styles.loginInput}
@@ -44,6 +69,7 @@ export const Login = () => {
           type="password"
           placeholder="비밀번호"
           onChange={handleChange}
+          autoComplete="current-password"
         />
         <button className={styles.loginButton}>로그인하기</button>
       </form>
