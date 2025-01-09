@@ -1,7 +1,7 @@
 import { ProtectedRoute } from '@/app/routes/ProtectedRoute';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
 
 export const AppRoutes = () => {
   return (
@@ -16,7 +16,7 @@ export const AppRoutes = () => {
           }
         />
         <Route path="/login" element={<Login />} />
-        <Route path="*" element={<>에러!</>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
