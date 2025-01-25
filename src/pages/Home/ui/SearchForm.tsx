@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import styles from './SearchForm.module.css';
+import { useMapService } from '@/shared/api/endpoints/map/context';
 
-export const SearchForm = () => {
+export const SearchForm = ({ map }: { map: any }) => {
   const [keyword, setKeyword] = useState('');
+  const mapService = useMapService();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert('검색');
+    mapService.getPlaceList({ map, keyword });
   };
 
   return (
