@@ -1,3 +1,4 @@
+import { Place } from '@/shared/api/endpoints/map/entities';
 import {
   displayCurrentLocationMarker,
   displaySearchResultMarker,
@@ -5,7 +6,13 @@ import {
 
 export interface MapService {
   initializeMap: ({ node }: { node: HTMLDivElement }) => any;
-  getPlaceList: ({ map, keyword }: { map: any; keyword: string }) => void;
+  getPlaceList: ({
+    map,
+    keyword,
+  }: {
+    map: any;
+    keyword: string;
+  }) => Promise<Place[]>;
 }
 
 export const createMapService = (): MapService => ({
@@ -38,26 +45,32 @@ export const createMapService = (): MapService => ({
   getPlaceList: ({ map, keyword }: { map: any; keyword: string }) => {
     const ps = new window.kakao.maps.services.Places();
 
-    const placesSearchCB = (data: any, status: any) => {
-      if (status === 'ZERO_RESULT') {
-        alert('검색 결과가 없습니다.');
-        return;
-      }
+    return new Promise((resolve, reject) => {
+      const placesSearchCB = (data: Place[], status: 'ZERO_RESULT' | 'OK') => {
+        if (status === 'ZERO_RESULT') {
+          alert('검색 결과가 없습니다.');
+          resolve([]);
+          return;
+        }
 
-      if (status !== 'OK') {
-        alert('검색할 수 없습니다.');
-      }
+        if (status !== 'OK') {
+          alert('오류가 발생했습니다.');
+          reject(new Error('오류가 발생했습니다.'));
+          return;
+        }
 
-      const bounds = new window.kakao.maps.LatLngBounds();
+        const bounds = new window.kakao.maps.LatLngBounds();
 
-      for (let i = 0; i < data.length; i++) {
-        displaySearchResultMarker(map, data[i]);
-        bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
-      }
+        for (let i = 0; i < data.length; i++) {
+          displaySearchResultMarker(map, data[i]);
+          bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
+        }
 
-      map.setBounds(bounds);
-    };
+        map.setBounds(bounds);
+        resolve(data);
+      };
 
-    ps.keywordSearch(keyword, placesSearchCB);
+      ps.keywordSearch(keyword, placesSearchCB);
+    });
   },
 });
