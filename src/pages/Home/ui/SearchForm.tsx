@@ -3,12 +3,12 @@ import styles from './SearchForm.module.css';
 import { useMapService } from '@/shared/api/endpoints/map/context';
 
 export const SearchForm = ({ map }: { map: any }) => {
-  const [keyword, setKeyword] = useState('');
   const mapService = useMapService();
+  const [keyword, setKeyword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mapService.getPlaceList({ map, keyword });
+    await mapService.getPlaceList({ map, keyword });
   };
 
   return (
