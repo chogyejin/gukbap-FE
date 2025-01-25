@@ -1,23 +1,48 @@
+import { Place } from '@/shared/api/endpoints/map/entities';
+
 export const displayCurrentLocationMarker = (
   map: any,
   locPosition: { La: number; Ma: number },
   message: string
 ) => {
-  // 마커를 생성합니다
   const marker = new window.kakao.maps.Marker({
     map: map,
     position: locPosition,
   });
 
-  // 인포윈도우를 생성합니다
   const infowindow = new window.kakao.maps.InfoWindow({
     content: message,
     removable: true,
   });
 
-  // 인포윈도우를 마커위에 표시합니다
   infowindow.open(map, marker);
 
-  // 지도 중심좌표를 접속위치로 변경합니다
   map.setCenter(locPosition);
+};
+
+export const displaySearchResultMarker = (map: any, place: Place) => {
+  const infowindow = new window.kakao.maps.InfoWindow({
+    zIndex: 100,
+    removable: true,
+  });
+
+  const marker = new window.kakao.maps.Marker({
+    map,
+    position: new window.kakao.maps.LatLng(place.y, place.x),
+  });
+
+  window.kakao.maps.event.addListener(marker, 'click', () => {
+    console.log('place', place);
+    infowindow.setContent(
+      '<div style="padding:5px;font-size:12px;">' +
+        '<div>' +
+        place.place_name +
+        '<div>' +
+        '<div>' +
+        place.road_address_name +
+        '<div>' +
+        '</div>'
+    );
+    infowindow.open(map, marker);
+  });
 };
