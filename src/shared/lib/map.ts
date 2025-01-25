@@ -1,4 +1,4 @@
-export const displayMarker = (
+export const displayCurrentLocationMarker = (
   map: any,
   locPosition: { La: number; Ma: number },
   message: string
@@ -9,13 +9,10 @@ export const displayMarker = (
     position: locPosition,
   });
 
-  const iwContent = message;
-  const iwRemoveable = true;
-
   // 인포윈도우를 생성합니다
   const infowindow = new window.kakao.maps.InfoWindow({
-    content: iwContent,
-    removable: iwRemoveable,
+    content: message,
+    removable: true,
   });
 
   // 인포윈도우를 마커위에 표시합니다
