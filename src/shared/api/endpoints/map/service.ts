@@ -38,8 +38,6 @@ export const createMapService = (): MapService => ({
   getPlaceList: ({ map, keyword }: { map: any; keyword: string }) => {
     const ps = new window.kakao.maps.services.Places();
 
-    ps.keywordSearch(keyword, placesSearchCB);
-
     const placesSearchCB = (data: any, status: any) => {
       if (status === 'ZERO_RESULT') {
         alert('검색 결과가 없습니다.');
@@ -59,5 +57,7 @@ export const createMapService = (): MapService => ({
 
       map.setBounds(bounds);
     };
+
+    ps.keywordSearch(keyword, placesSearchCB);
   },
 });
