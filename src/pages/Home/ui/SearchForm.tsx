@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import styles from './SearchForm.module.css';
 import { useMapService } from '@/shared/api/endpoints/map/context';
+import { Map } from '@/shared/api/endpoints/map/entities';
 
-export const SearchForm = ({ map }: { map: any }) => {
+export const SearchForm = ({ map }: { map: Map }) => {
   const mapService = useMapService();
   const [keyword, setKeyword] = useState('');
 

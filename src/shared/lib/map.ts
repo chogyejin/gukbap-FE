@@ -1,7 +1,7 @@
-import { Place } from '@/shared/api/endpoints/map/entities';
+import { Map, Place } from '@/shared/api/endpoints/map/entities';
 
 export const displayCurrentLocationMarker = (
-  map: any,
+  map: Map,
   locPosition: { La: number; Ma: number },
   message: string
 ) => {
@@ -20,7 +20,7 @@ export const displayCurrentLocationMarker = (
   map.setCenter(locPosition);
 };
 
-export const displaySearchResultMarker = (map: any, place: Place) => {
+export const displaySearchResultMarker = (map: Map, place: Place) => {
   const infowindow = new window.kakao.maps.InfoWindow({
     zIndex: 100,
     removable: true,

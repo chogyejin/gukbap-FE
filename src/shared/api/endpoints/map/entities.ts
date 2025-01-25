@@ -27,3 +27,5 @@ export type Place = {
   x: string;
   y: string;
 };
+
+export type Map = { [key: string]: any };

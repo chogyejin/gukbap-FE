@@ -7,11 +7,17 @@ import { AuthServiceContext } from '@/shared/api/endpoints/auth/context';
 import { createHttpClient } from '@/shared/api/client';
 import { MapServiceContext } from '@/shared/api/endpoints/map/context';
 import { createMapService } from '@/shared/api/endpoints/map/service';
+import { getToken } from '@/shared/lib/storage';
 
 function App() {
-  const httpClient = createHttpClient({ baseURL: API_BASE_URL });
+  const httpClient = createHttpClient({
+    baseURL: API_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${getToken('token')}`,
+    },
+  });
   const authService = createAuthService({ httpClient });
-  const mapService = createMapService();
+  const mapService = createMapService({ httpClient });
 
   return (
     <AuthServiceContext.Provider value={authService}>
