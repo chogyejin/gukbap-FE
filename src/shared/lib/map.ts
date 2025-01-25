@@ -32,7 +32,6 @@ export const displaySearchResultMarker = (map: any, place: Place) => {
   });
 
   window.kakao.maps.event.addListener(marker, 'click', () => {
-    console.log('place', place);
     infowindow.setContent(
       '<div style="padding:5px;font-size:12px;">' +
         '<div>' +
