@@ -40,7 +40,7 @@ export const createMapService = (): MapService => ({
 
     ps.keywordSearch(keyword, placesSearchCB);
 
-    function placesSearchCB(data: any, status: any) {
+    const placesSearchCB = (data: any, status: any) => {
       if (status === 'ZERO_RESULT') {
         alert('검색 결과가 없습니다.');
         return;
@@ -58,6 +58,6 @@ export const createMapService = (): MapService => ({
       }
 
       map.setBounds(bounds);
-    }
+    };
   },
 });
