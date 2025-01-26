@@ -14,6 +14,7 @@ function App() {
     baseURL: API_BASE_URL,
     headers: {
       Authorization: `Bearer ${getToken('token')}`,
+      'ngrok-skip-browser-warning': 'true',
     },
   });
   const authService = createAuthService({ httpClient });
