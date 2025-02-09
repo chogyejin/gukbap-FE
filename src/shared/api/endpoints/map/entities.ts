@@ -29,3 +29,15 @@ export type Place = {
 };
 
 export type Map = { [key: string]: any };
+
+export type UserPlace = {
+  id: number;
+  x: string;
+  y: string;
+  review: string;
+  user: {
+    id: number;
+    username: string;
+    token: string | null;
+  };
+};
