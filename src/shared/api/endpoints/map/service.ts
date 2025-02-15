@@ -12,6 +12,13 @@ export interface MapService {
     keyword: string;
   }) => Promise<Place[]>;
   getPlaceListByUsers: () => Promise<UserPlace[]>;
+  displayPlaceListByUsers: ({
+    map,
+    placeList,
+  }: {
+    map: Map;
+    placeList: UserPlace[];
+  }) => void;
 }
 
 export const createMapService = ({
@@ -79,5 +86,45 @@ export const createMapService = ({
   },
   getPlaceListByUsers: async () => {
     return (await httpClient.get<UserPlace[]>('/restaurant')).data;
+  },
+  displayPlaceListByUsers: ({
+    map,
+    placeList,
+  }: {
+    map: Map;
+    placeList: UserPlace[];
+  }) => {
+    placeList.forEach((place) => {
+      const imageSize = new window.kakao.maps.Size(24, 35);
+
+      const imageSrc =
+        'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
+      const markerImage = new window.kakao.maps.MarkerImage(
+        imageSrc,
+        imageSize
+      );
+
+      const marker = new window.kakao.maps.Marker({
+        map,
+        position: new window.kakao.maps.LatLng(place.y, place.x),
+        title: place.review,
+        image: markerImage,
+      });
+
+      const infowindow = new window.kakao.maps.InfoWindow({
+        zIndex: 100,
+        removable: true,
+      });
+
+      window.kakao.maps.event.addListener(marker, 'click', () => {
+        infowindow.setContent(
+          '<div style="padding:5px;font-size:12px;">' +
+            `<div>작성자: ${place.user.username}</div>` +
+            `<div>리뷰: ${place.review}</div>` +
+            '</div>'
+        );
+        infowindow.open(map, marker);
+      });
+    });
   },
 });

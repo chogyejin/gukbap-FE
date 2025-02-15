@@ -19,14 +19,21 @@ export const HomePage = () => {
     setMap(map);
   }, [mapService]);
 
-  if (!map) {
-    return <div>지도를 불러올 수 없습니다</div>;
-  }
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
+    (async () => {
+      const res = await mapService.getPlaceListByUsers();
+      mapService.displayPlaceListByUsers({ map, placeList: res });
+    })();
+  }, [map, mapService]);
 
   return (
     <>
-      <SearchForm map={map} />
       <div ref={mapRef} className={styles.map} />
+      {map && <SearchForm map={map} />}
     </>
   );
 };
