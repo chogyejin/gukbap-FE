@@ -28,6 +28,7 @@ export type Place = {
   y: string;
 };
 
+/* eslint @typescript-eslint/no-explicit-any: "warn" */
 export type Map = { [key: string]: any };
 
 export type UserPlace = {
