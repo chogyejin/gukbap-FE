@@ -53,7 +53,7 @@ export const createMapService = ({
 
     return map;
   },
-  searchPlaceList: ({ map, keyword }: { map: Map; keyword: string }) => {
+  searchPlaceList: ({ map, keyword }) => {
     const ps = new window.kakao.maps.services.Places();
 
     return new Promise((resolve, reject) => {
@@ -87,13 +87,7 @@ export const createMapService = ({
   getPlaceListByUsers: async () => {
     return (await httpClient.get<UserPlace[]>('/restaurant')).data;
   },
-  displayPlaceListByUsers: ({
-    map,
-    placeList,
-  }: {
-    map: Map;
-    placeList: UserPlace[];
-  }) => {
+  displayPlaceListByUsers: ({ map, placeList }) => {
     placeList.forEach((place) => {
       const imageSize = new window.kakao.maps.Size(24, 35);
 
