@@ -9,7 +9,9 @@ export const SearchForm = ({ map }: { map: Map }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await mapService.getPlaceList({ map, keyword });
+    (async () => {
+      await mapService.searchPlaceList({ map, keyword });
+    })();
   };
 
   return (

@@ -4,7 +4,7 @@ import { displaySearchResultMarker } from '@/shared/lib/map';
 
 export interface MapService {
   initializeMap: ({ node }: { node: HTMLDivElement }) => Map;
-  getPlaceList: ({
+  searchPlaceList: ({
     map,
     keyword,
   }: {
@@ -26,7 +26,7 @@ export const createMapService = ({
     const DEFAULT_LON = 126.570667;
     const options = {
       center: new kakao.maps.LatLng(DEFAULT_LAT, DEFAULT_LON),
-      level: 3,
+      level: 12,
     };
 
     const map = new kakao.maps.Map(node, options);
@@ -46,7 +46,7 @@ export const createMapService = ({
 
     return map;
   },
-  getPlaceList: ({ map, keyword }: { map: Map; keyword: string }) => {
+  searchPlaceList: ({ map, keyword }: { map: Map; keyword: string }) => {
     const ps = new window.kakao.maps.services.Places();
 
     return new Promise((resolve, reject) => {
