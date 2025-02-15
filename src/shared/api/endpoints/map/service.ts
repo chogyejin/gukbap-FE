@@ -1,9 +1,6 @@
 import { HttpClient } from '@/shared/api/client';
 import { Map, Place, UserPlace } from '@/shared/api/endpoints/map/entities';
-import {
-  displayCurrentLocationMarker,
-  displaySearchResultMarker,
-} from '@/shared/lib/map';
+import { displaySearchResultMarker } from '@/shared/lib/map';
 
 export interface MapService {
   initializeMap: ({ node }: { node: HTMLDivElement }) => Map;
@@ -40,11 +37,12 @@ export const createMapService = ({
         const lon = position.coords.longitude;
 
         const locPosition = new window.kakao.maps.LatLng(lat, lon);
-        displayCurrentLocationMarker(map, locPosition, '현 위치');
+        map.setCenter(locPosition);
       });
     }
+
     const locPosition = new kakao.maps.LatLng(DEFAULT_LAT, DEFAULT_LAT);
-    displayCurrentLocationMarker(map, locPosition, '현 위치');
+    map.setCenter(locPosition);
 
     return map;
   },

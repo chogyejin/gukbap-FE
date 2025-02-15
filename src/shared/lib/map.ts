@@ -1,25 +1,5 @@
 import { Map, Place } from '@/shared/api/endpoints/map/entities';
 
-export const displayCurrentLocationMarker = (
-  map: Map,
-  locPosition: { La: number; Ma: number },
-  message: string
-) => {
-  const marker = new window.kakao.maps.Marker({
-    map: map,
-    position: locPosition,
-  });
-
-  const infowindow = new window.kakao.maps.InfoWindow({
-    content: message,
-    removable: true,
-  });
-
-  infowindow.open(map, marker);
-
-  map.setCenter(locPosition);
-};
-
 export const displaySearchResultMarker = (map: Map, place: Place) => {
   const infowindow = new window.kakao.maps.InfoWindow({
     zIndex: 100,
