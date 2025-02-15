@@ -1,21 +1,27 @@
-import { Place } from '@/shared/api/endpoints/map/entities';
+import { HttpClient } from '@/shared/api/client';
+import { Map, Place, UserPlace } from '@/shared/api/endpoints/map/entities';
 import {
   displayCurrentLocationMarker,
   displaySearchResultMarker,
 } from '@/shared/lib/map';
 
 export interface MapService {
-  initializeMap: ({ node }: { node: HTMLDivElement }) => any;
+  initializeMap: ({ node }: { node: HTMLDivElement }) => Map;
   getPlaceList: ({
     map,
     keyword,
   }: {
-    map: any;
+    map: Map;
     keyword: string;
   }) => Promise<Place[]>;
+  getPlaceListByUsers: () => Promise<UserPlace[]>;
 }
 
-export const createMapService = (): MapService => ({
+export const createMapService = ({
+  httpClient,
+}: {
+  httpClient: HttpClient;
+}): MapService => ({
   initializeMap: ({ node }) => {
     const kakao = window.kakao;
 
@@ -42,7 +48,7 @@ export const createMapService = (): MapService => ({
 
     return map;
   },
-  getPlaceList: ({ map, keyword }: { map: any; keyword: string }) => {
+  getPlaceList: ({ map, keyword }: { map: Map; keyword: string }) => {
     const ps = new window.kakao.maps.services.Places();
 
     return new Promise((resolve, reject) => {
@@ -72,5 +78,8 @@ export const createMapService = (): MapService => ({
 
       ps.keywordSearch(keyword, placesSearchCB);
     });
+  },
+  getPlaceListByUsers: async () => {
+    return (await httpClient.get<UserPlace[]>('/restaurant')).data;
   },
 });
