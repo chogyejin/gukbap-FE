@@ -1,5 +1,10 @@
 import { HttpClient } from '@/shared/api/client';
-import { Map, Place, UserPlace } from '@/shared/api/endpoints/map/entities';
+import {
+  Map,
+  Marker,
+  Place,
+  UserPlace,
+} from '@/shared/api/endpoints/map/entities';
 import { displaySearchResultMarker } from '@/shared/lib/map';
 
 export interface MapService {
@@ -7,10 +12,12 @@ export interface MapService {
   searchPlaceList: ({
     map,
     keyword,
+    userPlaceList,
   }: {
     map: Map;
     keyword: string;
-  }) => Promise<Place[]>;
+    userPlaceList: UserPlace[];
+  }) => Promise<Marker[]>;
   getPlaceListByUsers: () => Promise<UserPlace[]>;
   displayPlaceListByUsers: ({
     map,
@@ -19,6 +26,7 @@ export interface MapService {
     map: Map;
     placeList: UserPlace[];
   }) => void;
+  removeMarkers: ({ markers }: { markers: Marker[] }) => void;
 }
 
 export const createMapService = ({
@@ -53,10 +61,11 @@ export const createMapService = ({
 
     return map;
   },
-  searchPlaceList: ({ map, keyword }) => {
+  searchPlaceList: ({ map, keyword, userPlaceList }) => {
     const ps = new window.kakao.maps.services.Places();
 
     return new Promise((resolve, reject) => {
+      const markers: Marker[] = [];
       const placesSearchCB = (data: Place[], status: 'ZERO_RESULT' | 'OK') => {
         if (status === 'ZERO_RESULT') {
           alert('검색 결과가 없습니다.');
@@ -73,12 +82,24 @@ export const createMapService = ({
         const bounds = new window.kakao.maps.LatLngBounds();
 
         for (let i = 0; i < data.length; i++) {
-          displaySearchResultMarker(map, data[i]);
-          bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
+          const dataLat = data[i].y;
+          const dataLng = data[i].x;
+
+          const isInUserPlaceList = userPlaceList.some(
+            (place) => place.x === dataLng && place.y === dataLat
+          );
+
+          let marker;
+          if (!isInUserPlaceList) {
+            marker = displaySearchResultMarker(map, data[i]);
+            markers.push(marker);
+          }
+
+          bounds.extend(new window.kakao.maps.LatLng(dataLat, dataLng));
         }
 
         map.setBounds(bounds);
-        resolve(data);
+        resolve(markers);
       };
 
       ps.keywordSearch(keyword, placesSearchCB);
@@ -120,5 +141,10 @@ export const createMapService = ({
         infowindow.open(map, marker);
       });
     });
+  },
+  removeMarkers: ({ markers }) => {
+    for (let i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
   },
 });

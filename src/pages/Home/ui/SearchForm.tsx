@@ -1,16 +1,32 @@
 import { useState } from 'react';
 import styles from './SearchForm.module.css';
 import { useMapService } from '@/shared/api/endpoints/map/context';
-import { Map } from '@/shared/api/endpoints/map/entities';
+import { Map, Marker, UserPlace } from '@/shared/api/endpoints/map/entities';
 
-export const SearchForm = ({ map }: { map: Map }) => {
+export const SearchForm = ({
+  map,
+  userPlaceList,
+}: {
+  map: Map;
+  userPlaceList: UserPlace[] | undefined;
+}) => {
   const mapService = useMapService();
   const [keyword, setKeyword] = useState('');
+  const [markers, setMarkers] = useState<Marker[]>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    mapService.removeMarkers({ markers });
+
     (async () => {
-      await mapService.searchPlaceList({ map, keyword });
+      const res = await mapService.searchPlaceList({
+        map,
+        keyword,
+        userPlaceList: userPlaceList ?? [],
+      });
+
+      setMarkers(res);
     })();
   };
 
