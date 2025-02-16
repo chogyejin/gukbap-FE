@@ -24,4 +24,6 @@ export const displaySearchResultMarker = (map: Map, place: Place) => {
     );
     infowindow.open(map, marker);
   });
+
+  return marker;
 };
