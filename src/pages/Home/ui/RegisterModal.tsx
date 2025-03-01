@@ -13,7 +13,9 @@ export const RegisterModal = ({
   const id = useId();
   const textareaId = id + '-review';
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     console.log(place);
     onClose();
   };
