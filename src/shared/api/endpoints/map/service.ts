@@ -1,3 +1,4 @@
+import { PlaceData } from '@/pages/Home/ui/SearchForm';
 import { HttpClient } from '@/shared/api/client';
 import {
   Map,
@@ -13,10 +14,12 @@ export interface MapService {
     map,
     keyword,
     userPlaceList,
+    onPlaceClick,
   }: {
     map: Map;
     keyword: string;
     userPlaceList: UserPlace[];
+    onPlaceClick: (place: PlaceData) => void;
   }) => Promise<Marker[]>;
   getPlaceListByUsers: () => Promise<UserPlace[]>;
   displayPlaceListByUsers: ({
@@ -61,7 +64,7 @@ export const createMapService = ({
 
     return map;
   },
-  searchPlaceList: ({ map, keyword, userPlaceList }) => {
+  searchPlaceList: ({ map, keyword, userPlaceList, onPlaceClick }) => {
     const ps = new window.kakao.maps.services.Places();
 
     return new Promise((resolve, reject) => {
@@ -91,7 +94,7 @@ export const createMapService = ({
 
           let marker;
           if (!isInUserPlaceList) {
-            marker = displaySearchResultMarker(map, data[i]);
+            marker = displaySearchResultMarker(map, data[i], onPlaceClick);
             markers.push(marker);
           }
 
