@@ -28,7 +28,7 @@ export const RegisterModal = ({
           id={textareaId}
           value={review}
           onChange={(e) => setReview(e.target.value)}
-          placeholder="리뷰를 남겨주세요."
+          autoFocus
         />
         <div className={styles.modalButtons}>
           <button onClick={onClose}>취소</button>
