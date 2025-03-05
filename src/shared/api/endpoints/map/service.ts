@@ -30,6 +30,13 @@ export interface MapService {
     placeList: UserPlace[];
   }) => void;
   removeMarkers: ({ markers }: { markers: Marker[] }) => void;
+  saveReview: (body: {
+    placeId: string;
+    x: string;
+    y: string;
+    name: string;
+    review: string;
+  }) => Promise<any>;
 }
 
 export const createMapService = ({
@@ -149,5 +156,8 @@ export const createMapService = ({
     for (let i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
+  },
+  saveReview: async (body) => {
+    return (await httpClient.post<any>('/restaurant', body)).data;
   },
 });

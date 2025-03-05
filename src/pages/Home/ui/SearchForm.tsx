@@ -67,7 +67,7 @@ export const SearchForm = ({
           </button>
         </form>
       </div>
-      {selectedPlace.isModalOpen && (
+      {selectedPlace.isModalOpen && selectedPlace.data && (
         <RegisterModal
           place={selectedPlace.data}
           onClose={() =>
