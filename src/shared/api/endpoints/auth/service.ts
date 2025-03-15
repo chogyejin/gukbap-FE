@@ -13,7 +13,8 @@ export const createAuthService = ({
   httpClient: HttpClient;
 }): AuthService => ({
   signIn: async (body) => {
-    return (await httpClient.post<{ token: string }>('/users/sign-in', body))
-      .data;
+    return (
+      await httpClient.post<{ token: string }>('/api/v1/users/sign-in', body)
+    ).data;
   },
 });

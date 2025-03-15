@@ -36,7 +36,7 @@ export interface MapService {
     y: string;
     name: string;
     review: string;
-  }) => Promise<any>;
+  }) => void;
 }
 
 export const createMapService = ({
@@ -116,7 +116,7 @@ export const createMapService = ({
     });
   },
   getPlaceListByUsers: async () => {
-    return (await httpClient.get<UserPlace[]>('/restaurant')).data;
+    return (await httpClient.get<UserPlace[]>('/api/v1/restaurant')).data;
   },
   displayPlaceListByUsers: ({ map, placeList }) => {
     placeList.forEach((place) => {
@@ -158,6 +158,6 @@ export const createMapService = ({
     }
   },
   saveReview: async (body) => {
-    return (await httpClient.post<any>('/restaurant', body)).data;
+    return (await httpClient.post('/api/v1/restaurant', body)).data;
   },
 });
