@@ -33,6 +33,7 @@ export type UserPlace = {
   x: string;
   y: string;
   review: string;
+  placeId: string;
   user: {
     id: number;
     username: string;
