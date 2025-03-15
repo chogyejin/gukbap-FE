@@ -4,12 +4,15 @@ type Config = { headers: Headers; params: URLSearchParams };
 type CreateClientOptions = { baseURL: string; headers: Headers };
 
 export interface HttpClient {
-  get<D = unknown>(url: Url, config?: Partial<Config>): Promise<{ data: D }>;
+  get<D = unknown>(
+    url: Url,
+    config?: Partial<Config>
+  ): Promise<{ data: D; ok: boolean }>;
   post<D = unknown, B = unknown>(
     url: Url,
     body?: B,
     config?: Partial<Config>
-  ): Promise<{ data: D }>;
+  ): Promise<{ data: D; ok: boolean }>;
 }
 
 const paramsToString = (params?: URLSearchParams) =>
@@ -32,7 +35,7 @@ export const createHttpClient = (
       const responseBody = await response.json().catch(() => null);
 
       if (response.ok) {
-        return { data: responseBody as D };
+        return { data: responseBody as D, ok: true };
       } else {
         throw responseBody;
       }
@@ -57,7 +60,7 @@ export const createHttpClient = (
       const responseBody = await response.json().catch(() => null);
 
       if (response.ok) {
-        return { data: responseBody as D };
+        return { data: responseBody as D, ok: true };
       } else {
         throw responseBody;
       }
