@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './LoginPage.module.css';
 import { useAuthService } from '@/shared/api/endpoints/auth/context';
-import { setToken } from '@/shared/lib/storage';
 
 const FORM_FIELD = {
   id: 'id',
@@ -41,8 +40,8 @@ export const LoginPage = () => {
         username: id,
         password: password,
       });
-      navigate('/home');
-      setToken('token', token);
+      authService.setAuthToken('token', token);
+      navigate('/');
     } catch (e) {
       let message = 'Unknown Error';
       if (e instanceof Error) {

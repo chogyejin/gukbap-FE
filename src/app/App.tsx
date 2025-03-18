@@ -7,21 +7,29 @@ import { AuthServiceContext } from '@/shared/api/endpoints/auth/context';
 import { createHttpClient } from '@/shared/api/client';
 import { MapServiceContext } from '@/shared/api/endpoints/map/context';
 import { createMapService } from '@/shared/api/endpoints/map/service';
-import { getToken } from '@/shared/lib/storage';
+import { getToken, setToken } from '@/shared/lib/storage';
+import { useState } from 'react';
 
-function App() {
+const App = () => {
+  const [authToken, _setAuthToken] = useState(getToken('token'));
+
   const httpClient = createHttpClient({
     baseURL: API_BASE_URL,
     headers: {
-      Authorization: `Bearer ${getToken('token')}`,
+      Authorization: authToken ? `Bearer ${authToken}` : '',
       'ngrok-skip-browser-warning': 'true',
     },
   });
   const authService = createAuthService({ httpClient });
   const mapService = createMapService({ httpClient });
 
+  const setAuthToken = (key: string, value: string) => {
+    setToken(key, value);
+    _setAuthToken(value);
+  };
+
   return (
-    <AuthServiceContext.Provider value={authService}>
+    <AuthServiceContext.Provider value={{ ...authService, setAuthToken }}>
       <MapServiceContext.Provider value={mapService}>
         <Layout>
           <AppRoutes />
@@ -29,6 +37,6 @@ function App() {
       </MapServiceContext.Provider>
     </AuthServiceContext.Provider>
   );
-}
+};
 
 export default App;

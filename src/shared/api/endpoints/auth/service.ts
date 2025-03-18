@@ -5,6 +5,7 @@ export interface AuthService {
     username: string;
     password: string;
   }) => Promise<{ token: string }>;
+  setAuthToken: (key: string, value: string) => void;
 }
 
 export const createAuthService = ({
@@ -17,4 +18,5 @@ export const createAuthService = ({
       await httpClient.post<{ token: string }>('/api/v1/users/sign-in', body)
     ).data;
   },
+  setAuthToken: () => {},
 });
