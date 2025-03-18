@@ -36,7 +36,10 @@ export interface MapService {
     y: string;
     name: string;
     review: string;
-  }) => void;
+  }) => Promise<{
+    data: null;
+    isSuccess: boolean;
+  }>;
 }
 
 export const createMapService = ({
@@ -158,6 +161,7 @@ export const createMapService = ({
     }
   },
   saveReview: async (body) => {
-    return (await httpClient.post('/api/v1/restaurant', body)).data;
+    const res = await httpClient.post('/api/v1/restaurant', body);
+    return { data: null, isSuccess: res.ok };
   },
 });

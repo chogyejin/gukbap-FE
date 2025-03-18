@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './SearchForm.module.css';
 import { useMapService } from '@/shared/api/endpoints/map/context';
 import { Map, Marker, UserPlace } from '@/shared/api/endpoints/map/entities';
@@ -11,27 +11,34 @@ export type PlaceData = {
   name: string;
 } | null;
 
-type SelectedPlace = {
-  isModalOpen: boolean;
-  data: PlaceData;
-};
-
-export const SearchForm = ({
-  map,
-  userPlaceList,
-}: {
-  map: Map;
-  userPlaceList: UserPlace[] | undefined;
-}) => {
+export const SearchForm = ({ map }: { map: Map }) => {
   const mapService = useMapService();
   const [keyword, setKeyword] = useState('');
   const [markers, setMarkers] = useState<Marker[]>([]);
-  const [selectedPlace, setSelectedPlace] = useState<SelectedPlace>({
+  const [selectedPlace, setSelectedPlace] = useState<{
+    isModalOpen: boolean;
+    data: PlaceData;
+  }>({
     isModalOpen: false,
     data: null,
   });
+  const [userPlaceList, setUserPlaceList] = useState<UserPlace[]>();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const updateMap = useCallback(async () => {
+    const res = await mapService.getPlaceListByUsers();
+    setUserPlaceList(res);
+    mapService.displayPlaceListByUsers({ map, placeList: res });
+  }, [map, mapService]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
+    updateMap();
+  }, [map, mapService, updateMap]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     mapService.removeMarkers({ markers });
@@ -70,9 +77,8 @@ export const SearchForm = ({
       {selectedPlace.isModalOpen && selectedPlace.data && (
         <RegisterModal
           place={selectedPlace.data}
-          onClose={() =>
-            setSelectedPlace({ ...selectedPlace, isModalOpen: false })
-          }
+          onClose={() => setSelectedPlace({ data: null, isModalOpen: false })}
+          onSaveSuccess={updateMap}
         />
       )}
     </>

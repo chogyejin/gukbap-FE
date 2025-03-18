@@ -6,19 +6,28 @@ import { useMapService } from '@/shared/api/endpoints/map/context';
 export const RegisterModal = ({
   place,
   onClose,
+  onSaveSuccess,
 }: {
   place: NonNullable<PlaceData>;
   onClose: () => void;
+  onSaveSuccess: () => void;
 }) => {
   const [review, setReview] = useState('');
   const id = useId();
   const textareaId = id + '-review';
   const mapService = useMapService();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    mapService.saveReview({ ...place, review });
+    const { isSuccess } = await mapService.saveReview({ ...place, review });
+
+    if (!isSuccess) {
+      alert('리뷰 등록에 실패했어요.');
+      return;
+    }
+
+    onSaveSuccess();
     onClose();
   };
 
